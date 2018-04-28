@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { LoginResponse } from '../../models/login/login-response.interface';
+import { Account } from '../../models/account/account.interface';
 
 /**
  * Generated class for the RegisterPage page.
@@ -15,11 +18,36 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  password: string;
+  account = {} as Account;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider,
+    private toast: ToastController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
   }
 
+  async register() {
+    if (this.account.password == this.password) {
+      const response: LoginResponse = await this.auth.createUserWithEmailAndPassword(this.account);
+      if (!response.error) {
+        this.toast.create({
+          message: 'Account created successfully',
+          duration: 1500
+        }).present();
+        this.navCtrl.setRoot('LoginPage');
+      }
+      else {
+        console.log(response.error.message);
+      }
+      
+    }
+    else {
+      this.toast.create({
+        message: 'Password mismatch',
+        duration: 1500
+      }).present();
+    }
+  }
 }
