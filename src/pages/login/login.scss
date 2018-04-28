@@ -1,0 +1,41 @@
+page-login {
+    .background {
+      background-image: url("../../assets/imgs/background.jpg");
+      background-position: center;
+      background-size: cover;
+      //background-color: azure;
+    }
+    .card {
+        margin-top: 50%;
+        //background-color:transparentize($color: white, $amount: 0.4) !important;
+        background-color: transparentize($color: rgb(236, 236, 236), $amount: 0.5) !important;
+    }
+    .item {
+        //background-color:transparentize($color: grey, $amount: 0.5) !important;
+        background-color: transparent;
+    }
+    .button-center {
+        text-align: center;
+    }
+    .button-end {
+        text-align: end;
+    }
+    .img{
+        height: auto;
+        width: auto ;
+        margin-top: 5%;
+        //margin: auto;
+        display: block;
+      }
+      .login {
+        padding-top: 3%;
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+      .register-translucent {
+        background-color: transparentize($color: rgb(53, 50, 50), $amount: 0.4) !important;
+      }
+      .login-translucent {
+        background-color: transparentize($color: rgb(34, 128, 204), $amount: 0.2) !important;
+      }
+}

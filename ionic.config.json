@@ -1,0 +1,8 @@
+{
+  "name": "geniusOnDemand",
+  "app_id": "f5a93cea",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
