@@ -38,9 +38,9 @@ export class LoginPage {
       }).present();
       this.authProfile$ = this.data.getProfile(<User>response.result).subscribe((profile: Profile) => {
         console.log(profile);
-        if (profile) {
+        if (profile.$key) {
           console.log('To tabs page');
-          this.navCtrl.setRoot('TabsPage');
+          this.navCtrl.setRoot('EditProfilePage');
         }
         else {
           console.log('About to Edit Profile');

@@ -1,0 +1,39 @@
+<ion-item>
+  <ion-label floating>First Name</ion-label>
+  <ion-input type="text" [(ngModel)]="profile.firstName"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Last Name</ion-label>
+  <ion-input type="text" [(ngModel)]="profile.lastName"></ion-input>
+</ion-item>
+
+<ion-item padding-vertical>
+  <ion-label>Classification</ion-label>
+  <ion-select [(ngModel)]="profile.classification">
+    <ion-option value="Freshman">Freshman</ion-option>
+    <ion-option value="Sophomore">Sophomore</ion-option>
+    <ion-option value="Junior">Junior</ion-option>
+    <ion-option value="Senior">Senior</ion-option>
+  </ion-select>
+  
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Major</ion-label>
+  <ion-input [(ngModel)]="profile.major"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Degree Type</ion-label>
+  <ion-input [(ngModel)]="profile.degreeType"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label floating>Date of Birth</ion-label>
+  <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="profile.dateOfBirth"></ion-datetime>
+</ion-item>
+
+<div padding-top>
+  <button block ion-button (click)="saveProfile()">Save</button>
+</div>
