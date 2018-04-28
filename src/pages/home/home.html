@@ -1,6 +1,5 @@
 <!--
   Generated template for the HomePage page.
-
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
@@ -14,5 +13,13 @@
 
 
 <ion-content padding>
-
+  <div>
+      <button ion-button (click)="goQuestionsPage()"  color="dark">Questions?</button>
+      <button ion-button  color="dark">Request tutor</button>
+  </div>
+  <ion-item>
+    <ion-label floating>Name</ion-label>
+    <ion-input [(ngModel)]="name"></ion-input>
+  </ion-item>
+  
 </ion-content>

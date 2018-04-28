@@ -5,6 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
+import { EmojiProvider } from '../providers/emoji';
+import { ChatService } from '../providers/chat-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AngularFireModule } from 'angularfire2';
 import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
@@ -31,8 +33,10 @@ import { DataService } from '../providers/data-service/data-service';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    EmojiProvider,
     AuthServiceProvider,
     DataService
+
   ]
 })
 export class AppModule {}
