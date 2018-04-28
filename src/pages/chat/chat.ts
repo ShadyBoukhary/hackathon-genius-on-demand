@@ -4,7 +4,6 @@ import { Events, Content } from 'ionic-angular';
 import { ChatService, UserInfo } from "../../providers/chat-service";
 import { ChatMessage } from '../../models/chat-message/chat-message.interface'
 
-
 @IonicPage()
 @Component({
   selector: 'page-chat',
