@@ -13,10 +13,12 @@ import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database-deprecated';
 import { DataService } from '../providers/data-service/data-service';
+import { Autosize } from '../directives/autosize/autosize';
 
 @NgModule({
   declarations: [
     MyApp,
+    Autosize
   ],
   imports: [
     BrowserModule,
