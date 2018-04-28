@@ -7,6 +7,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { EmojiProvider } from '../providers/emoji';
 import { ChatService } from '../providers/chat-service';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { AngularFireModule } from 'angularfire2';
+import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireDatabaseModule } from 'angularfire2/database-deprecated';
+import { DataService } from '../providers/data-service/data-service';
 
 @NgModule({
   declarations: [
@@ -14,7 +20,10 @@ import { ChatService } from '../providers/chat-service';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(FIREBASE_CONFIG),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -25,6 +34,9 @@ import { ChatService } from '../providers/chat-service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EmojiProvider,
+    AuthServiceProvider,
+    DataService
+
   ]
 })
 export class AppModule {}

@@ -11,19 +11,19 @@
   <ion-card class="card">
     <ion-card-content>
       <ion-item class="item">
-        <ion-input type="email" placeholder="Email"></ion-input>
+        <ion-input type="email" placeholder="Email" [(ngModel)]="account.email" ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="password" placeholder="Password"></ion-input>
+        <ion-input type="password" placeholder="Password" [(ngModel)]="account.password"></ion-input>
       </ion-item>
 
     </ion-card-content>
   </ion-card>
   <div class="login">
-  <button class= "login-translucent" ion-button block>Login</button>
+  <button class= "login-translucent" ion-button block (click)="login()">Login</button>
 </div>
 <div class="login">
-    <button class="register-translucent"ion-button block>Register</button>
+    <button class="register-translucent"ion-button block (click)="register()">Register</button>
   </div>
 
 </ion-content>
