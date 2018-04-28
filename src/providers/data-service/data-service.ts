@@ -15,6 +15,7 @@ import 'rxjs/add/operator/first';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { first } from 'rxjs/operator/first';
+import { Question } from '../../models/question/question.interface';
 
 
 
@@ -24,6 +25,8 @@ export class DataService implements OnDestroy {
   /*profileObject: AngularFireObject<Profile>*/
   profileObject: FirebaseObjectObservable<Profile>;
   profileList: FirebaseListObservable<Profile>;
+  questionObject: FirebaseObjectObservable<Question>;
+  questionList: FirebaseListObservable<Question[]>;
 
   sub: Subscription;
 
@@ -66,6 +69,23 @@ export class DataService implements OnDestroy {
       return false;
     }
   }
+
+  async saveQuestion(question: Question): Promise<boolean> {
+    try {
+      await this.database.list(`/questions/`).push(question);
+      return true;
+    }
+    catch(error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  getQuestions(): FirebaseListObservable<Question[]> {
+    return this.database.list(`/questions/`);
+  }
+
+  async sendMessage()
 
   ngOnDestroy() {
     this.sub.unsubscribe();
