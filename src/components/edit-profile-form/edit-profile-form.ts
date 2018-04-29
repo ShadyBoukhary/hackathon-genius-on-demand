@@ -25,7 +25,7 @@ export class EditProfileFormComponent implements OnDestroy, OnInit {
 
   constructor(private auth: AuthServiceProvider, private data: DataService) {
 
-    
+
     this.saveProfileResult = new EventEmitter<Boolean>();
     // get the authenticated user as an observable, subscribe to it, which returns an Observable
     // of type User, assign to authenticatedUser to be passed to saveProfile()
@@ -42,6 +42,9 @@ export class EditProfileFormComponent implements OnDestroy, OnInit {
     // returned as a promise<boolean>
     if (this.authenticatedUser) {
       this.profile.email = this.authenticatedUser.email;
+      this.profile.numberOfAnswers = 0;
+      this.profile.numberOfQuestions = 0;
+      this.profile.numberOfTutorRequests = 0;
       const result = await this.data.saveProfile(this.authenticatedUser, this.profile);
       this.saveProfileResult.emit(result);
     }

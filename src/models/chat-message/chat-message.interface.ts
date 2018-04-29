@@ -1,10 +1,12 @@
+import { Profile } from "../profile/profile.interface";
+
 export interface ChatMessage {
-    messageId: string;
     userId: string;
-    userName: string;
-    userAvatar: string;
+    userAvatar?: string;
     toUserId: string;
-    time: number | string;
+    time: Date;
     message: string;
-    status: string;
+    userToProfile: Profile;
+    userFromProfile;
+    $key?: string;
   }

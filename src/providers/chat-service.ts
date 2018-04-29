@@ -4,8 +4,12 @@ import { map } from 'rxjs/operators/map';
 //import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { ChatMessage } from '../models/chat-message/chat-message.interface'
-
-
+import { DataService } from './data-service/data-service';
+import { FirebaseObjectObservable, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database-deprecated';
+import { User, database } from 'firebase/app';
+import { AuthServiceProvider } from './auth-service/auth-service';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/observable/forkJoin';
 
 export class UserInfo {
   id: string;
@@ -16,38 +20,30 @@ export class UserInfo {
 @Injectable()
 export class ChatService {
 
-  constructor(//private http: HttpClient,
-              private events: Events) {
+  constructor(private auth:AuthServiceProvider, private events: Events, private database: AngularFireDatabase) {
   }
 
-  mockNewMsg(msg) {
-    const mockMsg: ChatMessage = {
-      messageId: Date.now().toString(),
-      userId: '210000198410281948',
-      userName: 'Hancock',
-      userAvatar: './assets/to-user.jpg',
-      toUserId: '140000198202211138',
-      time: Date.now(),
-      message: msg.message,
-      status: 'success'
-    };
 
-    setTimeout(() => {
-      this.events.publish('chat:received', mockMsg, Date.now())
-    }, Math.random() * 1800)
+  
+  async sendMessage(message: ChatMessage) {
+    console.log(message);
+    await this.database.list(`/messages`).push(message);
   }
 
-//   getMsgList(): Observable<ChatMessage[]> {
-//     const msgListUrl = './assets/mock/msg-list.json';
-//     // return this.http.get<any>(msgListUrl)
-//     // .pipe(map(response => response.array));
-//   }
-
-   sendMsg(msg: ChatMessage) {
-//     return new Promise(resolve => setTimeout(() => resolve(msg), Math.random() * 1000))
-//     .then(() => this.mockNewMsg(msg));
-      this.mockNewMsg(msg);
-   }
+  getChats(userToId: string) {
+    return this.auth.getAutenticatedUser()
+    .map(auth => auth.uid)
+    .mergeMap(uid => this.database.list(`/user-messages/${uid}/${userToId}`))
+    .mergeMap(chats => {
+      return Observable.forkJoin(
+        chats.map(chat => this.database.object(`/messages/${chat.$key}`)
+      .first()),
+      (...vals: ChatMessage[]) => {
+        return vals;
+      }
+      )
+    })
+  }
 
   getUserInfo(): Promise<UserInfo> {
     const userInfo: UserInfo = {
@@ -57,5 +53,7 @@ export class ChatService {
     };
     return new Promise(resolve => resolve(userInfo));
   }
+
+
 
 }

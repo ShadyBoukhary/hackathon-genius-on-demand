@@ -85,14 +85,23 @@ export class DataService implements OnDestroy {
     return this.database.list(`/questions/`);
   }
 
-  async sendMessage(){
-    
-  }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
-  
+  setUserOnline(profile: Profile) {
+    const ref = database().ref(`online-users/${profile.$key}`);
+    try {
+      ref.update({ ...profile});
+      ref.onDisconnect().remove();
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+  getOnlineUsers(): FirebaseListObservable<Profile[]> {
+    return this.database.list('online-users');
+  }
   
 }
 
