@@ -1,0 +1,28 @@
+<!--
+  Generated template for the QuestionViewPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>QuestionView</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <h1 >{{question.title}}</h1>
+
+    <h3 >{{question.subtitle}}</h3>
+  
+    <p>{{question.description}}</p>
+
+    <!-- Re-enable this when image functionality is added to question class and interface -->
+    <!-- <ion-img [src]="question.image"></ion-img> -->
+
+  <button ion-button class="Comment">Comment</button>
+  <button ion-button class="Answer" (click)="goSubmitAnswerPage()"  block>Answer</button>
+</ion-content>
