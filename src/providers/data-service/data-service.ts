@@ -85,6 +85,7 @@ export class DataService implements OnDestroy {
     return this.database.list(`/questions/`);
   }
 
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }

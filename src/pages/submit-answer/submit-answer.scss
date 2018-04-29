@@ -1,0 +1,22 @@
+page-submit-answer {
+    .textarea {
+        height: 100px;
+}
+.submit {
+
+    position: relative;
+    width:200px;
+    margin:auto;
+    margin-top:50vh;
+    background-color: transparentize($color: rgb(34, 128, 204), $amount: 0.2) !important;
+
+}
+.image{
+    position: relative;
+    text-align: end;
+    margin-top: 5%;
+    //background-color: transparentize($color: rgb(53, 50, 50), $amount: 0.4) !important;
+
+}
+
+}

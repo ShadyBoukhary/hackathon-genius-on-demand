@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the HomePage page.
+ * Generated class for the SubmitAnswerPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,25 +10,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-submit-answer',
+  templateUrl: 'submit-answer.html',
 })
-export class HomePage {
-
-  name: string;
+export class SubmitAnswerPage {
+  questionDescription: string;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    console.log('ionViewDidLoad SubmitAnswerPage');
   }
-
-  goQuestionsPage() {
-    this.navCtrl.push("QuestionPage");
+  ionViewWillLoad() {
+    this.questionDescription = this.navParams.get('questionDescription');
+    console.log(this.questionDescription)
   }
-  goTutorPage() {
-    this.navCtrl.push("RequestTutorPage");
-  }
-
-
 }

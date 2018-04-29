@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the HomePage page.
+ * Generated class for the QuestionPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,25 +10,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-question',
+  templateUrl: 'question.html',
 })
-export class HomePage {
-
-  name: string;
+export class QuestionPage {
+  Title: string;
+  Subtitle: string;
+  Description: string;
+  Comment: string;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    console.log('ionViewDidLoad QuestionPage');
   }
-
-  goQuestionsPage() {
-    this.navCtrl.push("QuestionPage");
-  }
-  goTutorPage() {
-    this.navCtrl.push("RequestTutorPage");
-  }
-
 
 }

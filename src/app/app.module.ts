@@ -14,9 +14,11 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database-deprecated';
 import { DataService } from '../providers/data-service/data-service';
 
+
 @NgModule({
   declarations: [
     MyApp,
+    
   ],
   imports: [
     BrowserModule,

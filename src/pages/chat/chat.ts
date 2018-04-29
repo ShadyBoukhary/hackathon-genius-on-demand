@@ -8,6 +8,7 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { DataService } from '../../providers/data-service/data-service';
 import { Observable } from "rxjs/Observable";
 
+
 @IonicPage()
 @Component({
   selector: 'page-chat',

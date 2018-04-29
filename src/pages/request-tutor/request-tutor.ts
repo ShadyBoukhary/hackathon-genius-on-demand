@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the HomePage page.
+ * Generated class for the RequestTutorPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,25 +10,26 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html',
+  selector: 'page-request-tutor',
+  templateUrl: 'request-tutor.html',
 })
-export class HomePage {
+export class RequestTutorPage {
 
-  name: string;
+  Subject: string;
+  Major: string;
+  Status: string;
+  ClassName: string;
+  Description: string;
+  MeetingPlace: string;
+  Day: string;
+  Time: string;
+
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HomePage');
+    console.log('ionViewDidLoad RequestTutorPage');
   }
-
-  goQuestionsPage() {
-    this.navCtrl.push("QuestionPage");
-  }
-  goTutorPage() {
-    this.navCtrl.push("RequestTutorPage");
-  }
-
 
 }
