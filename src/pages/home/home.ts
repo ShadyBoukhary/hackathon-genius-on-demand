@@ -26,6 +26,9 @@ export class HomePage {
   goQuestionsPage() {
     this.navCtrl.push("QuestionPage");
   }
+  goTutorPage() {
+    this.navCtrl.push("RequestTutorPage");
+  }
 
 
 }

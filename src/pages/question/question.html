@@ -23,15 +23,11 @@
 <ion-item>
     <ion-label floating>Subtitle</ion-label>
     <ion-input [(ngModel)]="Subtitle"></ion-input>
-  </ion-item>
-
-<ion-item>
-    <ion-label floating>Description</ion-label>
-    <ion-textarea  [(ngModel)]="Description"></ion-textarea>
 </ion-item>
 
 <ion-item>
-  <ion-textarea Autosize></ion-textarea>
+    <ion-label floating>Insert Description</ion-label>
+    <ion-textarea rows="5"[(ngModel)]="Description"></ion-textarea>
 </ion-item>
 
 <div class="image">
