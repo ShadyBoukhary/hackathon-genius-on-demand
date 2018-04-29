@@ -3,7 +3,10 @@ import { IonicPage, NavParams } from 'ionic-angular';
 import { Events, Content } from 'ionic-angular';
 import { ChatService, UserInfo } from "../../providers/chat-service";
 import { ChatMessage } from '../../models/chat-message/chat-message.interface'
-
+import { Profile } from '../../models/profile/profile.interface';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { DataService } from '../../providers/data-service/data-service';
+import { Observable } from "rxjs/Observable";
 
 @IonicPage()
 @Component({
@@ -14,15 +17,20 @@ export class Chat {
 
   @ViewChild(Content) content: Content;
   @ViewChild('chat_input') messageInput: ElementRef;
-  msgList: ChatMessage[] = [];
   user: UserInfo;
   toUser: UserInfo;
   editorMsg = '';
   showEmojiPicker = false;
+  selectedProfile: Profile;
+  userId: string;
+  userProfile: Profile;
+  messageList: Observable<ChatMessage[]>;
 
-  constructor(navParams: NavParams,
+  constructor(private navParams: NavParams,
               private chatService: ChatService,
-              private events: Events,) {
+              private events: Events,
+              private auth: AuthServiceProvider,
+              private data: DataService) {
     // Get the navParams toUserId parameter
     this.toUser = {
       id: navParams.get('toUserId'),
@@ -49,7 +57,57 @@ export class Chat {
       //this.pushNewMsg(msg);
     })
   }
+  ionViewWillLoad() {
+    this.selectedProfile = this.navParams.get('profile');
+    console.log(this.selectedProfile);
+    this.auth.getAutenticatedUser()
+    .subscribe(auth => this.userId = auth.uid);
+    this.data.getAuthenticatedUserProfile()
+    .subscribe(profile => this.userProfile = profile);
 
+    this.messageList = this.chatService.getChats(this.selectedProfile.$key);
+  }
+
+  async sendMessage(content: string) {
+
+    try {
+      
+      const message: ChatMessage = {
+        message: content,
+        toUserId: this.selectedProfile.$key,
+        userToProfile: {
+          firstName: this.selectedProfile.firstName,
+          lastName: this.selectedProfile.lastName,
+          classification: this.selectedProfile.classification,
+          major: this.selectedProfile.classification,
+          degreeType: this.selectedProfile.degreeType,
+          dateOfBirth: this.selectedProfile.dateOfBirth,
+          email: this.selectedProfile.email,
+          numberOfAnswers: this.selectedProfile.numberOfAnswers,
+          numberOfQuestions: this.selectedProfile.numberOfQuestions,
+          numberOfTutorRequests: this.selectedProfile.numberOfTutorRequests
+        },
+        userId: this.userId,
+        userFromProfile: {
+          firstName: this.userProfile.firstName,
+          lastName: this.userProfile.lastName,
+          classification: this.userProfile.classification,
+          major: this.userProfile.classification,
+          degreeType: this.userProfile.degreeType,
+          dateOfBirth: this.userProfile.dateOfBirth,
+          email: this.userProfile.email,
+          numberOfAnswers: this.userProfile.numberOfAnswers,
+          numberOfQuestions: this.userProfile.numberOfQuestions,
+          numberOfTutorRequests: this.userProfile.numberOfTutorRequests
+        },
+        time: new Date()
+      }
+      console.log(message);
+      await this.chatService.sendMessage(message);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   onFocus() {
     this.showEmojiPicker = false;
     this.content.resize();
@@ -82,59 +140,58 @@ export class Chat {
   // }
 
   /**
-   * @name sendMsg
    */
-  sendMsg() {
-    if (!this.editorMsg.trim()) return;
+  // sendMsg() {
+  //   if (!this.editorMsg.trim()) return;
 
-    // Mock message
-    const id = Date.now().toString();
-    let newMsg: ChatMessage = {
-      messageId: Date.now().toString(),
-      userId: this.user.id,
-      userName: this.user.name,
-      userAvatar: this.user.avatar,
-      toUserId: this.toUser.id,
-      time: Date.now(),
-      message: this.editorMsg,
-      status: 'pending'
-    };
+  //   // Mock message
+  //   const id = Date.now().toString();
+  //   let newMsg: ChatMessage = {
+  //     messageId: Date.now().toString(),
+  //     $userId: this.user.id,
+  //     userName: this.user.name,
+  //     userAvatar: this.user.avatar,
+  //     $toUserId: this.toUser.id,
+  //     time: Date.now(),
+  //     message: this.editorMsg,
+  //     status: 'pending'
+  //   };
 
-    this.pushNewMsg(newMsg);
-    this.editorMsg = '';
+  //   this.pushNewMsg(newMsg);
+  //   this.editorMsg = '';
 
-    if (!this.showEmojiPicker) {
-      this.focus();
-    }
+  //   if (!this.showEmojiPicker) {
+  //     this.focus();
+  //   }
 
-    this.chatService.sendMsg(newMsg)
-    //.then(() => {
-      let index = this.getMsgIndexById(id);
-      if (index !== -1) {
-        this.msgList[index].status = 'success';
-      //}
-    }//)
-  }
+  //   this.chatService.sendMsg(newMsg)
+  //   //.then(() => {
+  //     let index = this.getMsgIndexById(id);
+  //     if (index !== -1) {
+  //       this.msgList[index].status = 'success';
+  //     //}
+  //   }//)
+  // }
 
   /**
    * @name pushNewMsg
    * @param msg
    */
-  pushNewMsg(msg: ChatMessage) {
-    const userId = this.user.id,
-      toUserId = this.toUser.id;
-    // Verify user relationships
-    if (msg.userId === userId && msg.toUserId === toUserId) {
-      this.msgList.push(msg);
-    } else if (msg.toUserId === userId && msg.userId === toUserId) {
-      this.msgList.push(msg);
-    }
-    this.scrollToBottom();
-  }
+  // pushNewMsg(msg: ChatMessage) {
+  //   const userId = this.user.id,
+  //     toUserId = this.toUser.id;
+  //   // Verify user relationships
+  //   if (msg.$userId === userId && msg.$toUserId === toUserId) {
+  //     this.msgList.push(msg);
+  //   } else if (msg.$toUserId === userId && msg.$userId === toUserId) {
+  //     this.msgList.push(msg);
+  //   }
+  //   this.scrollToBottom();
+  // }
 
-  getMsgIndexById(id: string) {
-    return this.msgList.findIndex(e => e.messageId === id)
-  }
+  // getMsgIndexById(id: string) {
+  //   return this.msgList.findIndex(e => e.messageId === id)
+  // }
 
   scrollToBottom() {
     setTimeout(() => {
