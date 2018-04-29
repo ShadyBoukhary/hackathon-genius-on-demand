@@ -29,6 +29,7 @@ export class LoginPage {
   register() {
     this.navCtrl.push('RegisterPage');
   }
+  
   async login() {
     const response: LoginResponse = await this.auth.signInWithEmailAndPassword(this.account);
     if (!response.error) {

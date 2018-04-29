@@ -63,6 +63,7 @@ export class RequestTutorPage implements OnDestroy{
       }).present();
       this.navCtrl.pop();
     }
+    //hi
     else {
       this.toast.create({
         message: 'An error occured!',
@@ -73,5 +74,8 @@ export class RequestTutorPage implements OnDestroy{
   ngOnDestroy() {
     this.authenticatedUser$.unsubscribe();
     this.authenticatedUserProfile$.unsubscribe();
+  }
+  hi() {
+    
   }
 }
