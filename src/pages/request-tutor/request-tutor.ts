@@ -75,4 +75,7 @@ export class RequestTutorPage implements OnDestroy{
     this.authenticatedUser$.unsubscribe();
     this.authenticatedUserProfile$.unsubscribe();
   }
+  hi() {
+    
+  }
 }
