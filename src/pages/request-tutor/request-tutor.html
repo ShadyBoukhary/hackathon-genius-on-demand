@@ -4,61 +4,57 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header class="header">
 
-  <ion-navbar>
-    <ion-title>Request_Tutor</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Request a Tutor</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content padding>
-
-    <ion-item>
-        <ion-label floating>Subject</ion-label>
-        <ion-input [(ngModel)]="Subject"></ion-input>
+<ion-content class="background"padding>
+  <ion-card class="card">
+    <ion-list>
+      <ion-item-divider>Subject Details</ion-item-divider>
+    <ion-item class="item">
+        <ion-input placeholder="Subject" [(ngModel)]="tutorRequest.subject"></ion-input>
       </ion-item>
       
-      <ion-item>
-          <ion-label floating>Major</ion-label>
-          <ion-input [(ngModel)]="Major"></ion-input>
+      <ion-item class="item">
+          <ion-input placeholder="Major"[(ngModel)]="tutorRequest.major"></ion-input>
       </ion-item>
-      <ion-item>
-          <ion-label floating>ClassName</ion-label>
-          <ion-input [(ngModel)]="ClassName"></ion-input>
+      <ion-item class="item">
+          <ion-label>Undergrad or Grad</ion-label>
+          <ion-select [(ngModel)]="Status">
+            <ion-option value="Undergraduate">Undergraduate</ion-option>
+            <ion-option value="Graduate">Graduate</ion-option>
+          </ion-select>
+        </ion-item>
+      <ion-item class="item">
+          <ion-input placeholder="Class Name"[(ngModel)]="tutorRequest.class"></ion-input>
         </ion-item>
         
-        <ion-item>
-            <ion-label floating>Description</ion-label>
-            <ion-textarea rows="4" [(ngModel)]="Description"></ion-textarea>
+        <ion-item class="item">
+            <ion-textarea placeholder="Description" rows="4" [(ngModel)]="tutorRequest.description"></ion-textarea>
+        </ion-item>
+      </ion-list>
+    </ion-card>
+
+    <ion-card>
+      <ion-item-divider>Place and Time</ion-item-divider>
+        <ion-item class="item">
+            <ion-input placeholder="Meeting place on Campus"[(ngModel)]="tutorRequest.place"></ion-input>
         </ion-item>
 
-        <ion-item>
-            <ion-label floating>Meeting Place</ion-label>
-            <ion-input [(ngModel)]="MeetingPlace"></ion-input>
-        </ion-item>
-
-        <ion-list padding>
-            <ion-item>
-              <ion-label>Undergrad or Grad</ion-label>
-              <ion-select [(ngModel)]="Status">
-                <ion-option value="Undergraduate">Undergraduate</ion-option>
-                <ion-option value="Graduate">Graduate</ion-option>
-              </ion-select>
-            </ion-item>
-          </ion-list>
-          <ion-list>
-              <ion-item>  
-                  <ion-label>Date</ion-label>
-                  <ion-datetime displayFormat= "DDDD MMM DD, YYYY" [(ngModel)]="Day"></ion-datetime>
+            
+              <ion-item class="item">  
+                  <ion-datetime placeholder="Date"displayFormat= "DDDD MMM DD, YYYY" [(ngModel)]="tutorRequest.datePreferred"></ion-datetime>
                 </ion-item>
-                <ion-item>  
-                    <ion-label>Time</ion-label>
-                    <ion-datetime displayFormat= "hh:m  A" [(ngModel)]="Time"></ion-datetime>
+                <ion-item class="item">  
+                    <ion-datetime placeholder="TIme" displayFormat= "hh:m  A" [(ngModel)]="tutorRequest.timePreferred"></ion-datetime>
                   </ion-item>
-            </ion-list>
-
-            <button ion-button class="submit1">Submit</button>
+                </ion-card>
+            <button ion-button block color="primary" (click)="submit()" >Submit</button>
 
           
         

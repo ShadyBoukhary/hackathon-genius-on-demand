@@ -16,6 +16,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { first } from 'rxjs/operator/first';
 import { Question } from '../../models/question/question.interface';
+import { TutorResquest } from '../../models/tutor-request/tutor-request.interface';
 
 
 
@@ -83,6 +84,42 @@ export class DataService implements OnDestroy {
 
   getQuestions(): FirebaseListObservable<Question[]> {
     return this.database.list(`/questions/`);
+  }
+
+
+  async deleteQuestion(question: Question) {
+    const questionObject: FirebaseObjectObservable<Question> = this.database.object(`/questions/${question.$key}`);
+    try {
+      await questionObject.remove();
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async saveRequest(request: TutorResquest): Promise<boolean> {
+    try {
+      await this.database.list(`/requests/`).push(request);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+  getRequests(): FirebaseListObservable<TutorResquest[]> {
+    return this.database.list(`/requests/`);
+  }
+  
+  async deleteRequest(request: TutorResquest) {
+    const requestObject: FirebaseObjectObservable<TutorResquest> = this.database.object(`/requests/${request.$key}`);
+    try {
+      await requestObject.remove();
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
 

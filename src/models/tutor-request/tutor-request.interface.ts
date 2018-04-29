@@ -1,8 +1,14 @@
-export interface TutorRequest {
-    $from: string;
+import { Profile } from "../profile/profile.interface";
+
+export interface TutorResquest {
+    from: string;
+    fromProfile: Profile;
+
     time: Date;
     place: string;
-    timePreferred: Date;
+    datePreferred: Date;
+    timePreferred: string;
+    description: string;
     major: string;
     subject: string;
     class: string;

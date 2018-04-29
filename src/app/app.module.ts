@@ -37,7 +37,8 @@ import { DataService } from '../providers/data-service/data-service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     EmojiProvider,
     AuthServiceProvider,
-    DataService
+    DataService,
+    ChatService
 
   ]
 })
