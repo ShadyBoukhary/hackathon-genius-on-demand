@@ -45,6 +45,24 @@ export class ChatService {
     })
   }
 
+  getLastMessages(): Observable<ChatMessage[]> {
+    return this.auth.getAutenticatedUser()
+    .map(auth => auth.uid)
+    .mergeMap(authId => this.database.list(`/last-messages/${authId}`))
+    .mergeMap(messageIds => {
+      return Observable.forkJoin(
+        messageIds.map(message => {
+          return this.database.object(`/messages/${message.key}`)
+          .first()
+        }),
+        (...values) => {
+          console.log(values);
+          return values;
+        }
+      )
+    })
+  }
+
   getUserInfo(): Promise<UserInfo> {
     const userInfo: UserInfo = {
       id: '140000198202211138',
