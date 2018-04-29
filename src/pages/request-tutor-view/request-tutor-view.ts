@@ -1,52 +1,63 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { TutorRequest } from '../../models/tutor-request/tutor-request.interface';
-/**
- * Generated class for the RequestTutorViewPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Component, OnDestroy } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
+import { Question } from '../../models/question/question.interface';
+import { Answer } from '../../models/answer/answer.interface';
+import { Subscription } from 'rxjs/Subscription';
+import { Profile } from '../../models/profile/profile.interface';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { DataService } from '../../providers/data-service/data-service';
+import { Observable } from 'rxjs/Observable';
+import { TutorResquest } from '../../models/tutor-request/tutor-request.interface';
+
 
 @IonicPage()
 @Component({
   selector: 'page-request-tutor-view',
   templateUrl: 'request-tutor-view.html',
 })
-export class RequestTutorViewPage {
-  //tutorRequest: TutorRequest;
-  tutorRequest: TestTutorRequest; //testing
+export class RequestTutorViewPage implements OnDestroy{
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  contactCheck: boolean = false;
+  authenticatedUser$: Subscription;
+  authenticatedUserProfile$: Subscription;
+  authenticatedUserProfile: Profile;
+  request: TutorResquest;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController,
+    private auth: AuthServiceProvider, private data: DataService, private toast: ToastController) {
+      this.authenticatedUser$ = this.auth.getAutenticatedUser().subscribe(user => {
+       // this.answer.from = user.uid;
+      });
+      this.authenticatedUserProfile$ = this.data.getAuthenticatedUserProfile().subscribe(profile => {
+        this.authenticatedUserProfile = profile;
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RequestTutorViewPage');
   }
   ionViewWillLoad() {
-    //this.tutorRequest = this.navParams.get('tutorRequest');
-    
-    //testing, creating a fake tutor request
-    this.tutorRequest = new TestTutorRequest();
-    this.tutorRequest.Subject = "Test subject";
-    this.tutorRequest.Major = "Test Major";
-    this.tutorRequest.ClassName = "test ClassName";
-    this.tutorRequest.Description = "test description";
-    this.tutorRequest.MeetingPlace = "test meething place";
-    this.tutorRequest.Status = "Test Undergrad";
-    this.tutorRequest.Day = "Testday 12 April";
-    this.tutorRequest.Time = "12:05"
+    this.request = this.navParams.get('request');
+  }
 
-    console.log(this.tutorRequest)
+  ngOnDestroy() {
+    this.authenticatedUser$.unsubscribe();
+    this.authenticatedUserProfile$.unsubscribe();
+  }
+  close() {
+    this.view.dismiss();
+  }
+  contact() {
+    this.view.dismiss();
+    this.contactCheck = true;
+    this.view.onWillDismiss(() => {
+      if (this.contactCheck) {
+        const profile: Profile = this.request.fromProfile;
+        profile.$key = this.request.from;
+        this.navCtrl.setRoot('TabsPage');
+        this.navCtrl.push('Chat', {profile});
+      }
+    })
   }
 }
-class TestTutorRequest{ //purely for testing purposes
-  public Subject: string;
-  public Major: string;
-  public Status: string;
-  public ClassName: string;
-  public Description: string;
-  public MeetingPlace: string;
-  public Day: string;
-  public Time: string;
-}
+

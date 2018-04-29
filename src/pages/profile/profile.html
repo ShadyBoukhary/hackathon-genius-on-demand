@@ -1,0 +1,18 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+      <ion-title>Profile</ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="navigateToEditProfilePage()">EDIT</button>
+      </ion-buttons>
+    </ion-navbar>
+  
+  </ion-header>
+  
+  
+  <ion-content class="background">
+  
+    <app-profile-view (existingProfile)="getExistingProfile($event)"></app-profile-view>
+  
+  </ion-content>
+  

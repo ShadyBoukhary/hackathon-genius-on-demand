@@ -66,6 +66,7 @@ export class Chat {
     this.data.getAuthenticatedUserProfile()
     .subscribe(profile => this.userProfile = profile);
     console.log('getting msgs');
+
     this.messageList = this.chatService.getChats(this.selectedProfile.$key);
     this.scrollToBottom();
   }
@@ -106,6 +107,7 @@ export class Chat {
       }
       console.log(message);
       await this.chatService.sendMessage(message);
+      this.editorMsg = '';
       this.scrollToBottom();
     } catch (error) {
       console.log(error);

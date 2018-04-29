@@ -1,8 +1,13 @@
+import { Answer } from "../answer/answer.interface";
+import { Profile } from "../profile/profile.interface";
+
 export interface Question {
-    $from: string;
+    from: string;
     title: string;
     subtitle: string;
+    fromProfile: Profile;
     description: string;
     time: Date;
     $key?: string;
+    answers?: Answer[];
 }

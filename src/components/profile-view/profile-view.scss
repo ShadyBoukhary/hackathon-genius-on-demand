@@ -1,4 +1,8 @@
-page-home {
+profile-view {
+    .textarea {
+        height: 100px;
+        
+    }
     .background {
         background-image: url("../../assets/imgs/background.jpg");
      background-position: center;
@@ -13,7 +17,7 @@ page-home {
     .card {
         //margin-top: 50%;
         //background-color:transparentize($color: white, $amount: 0.4) !important;
-        background-color: transparentize($color: rgb(236, 236, 236), $amount: 0.2) !important;
+        background-color: transparentize($color: rgb(138, 20, 20), $amount: 0.9) !important;
     }
     .item {
         //background-color:transparentize($color: grey, $amount: 0.5) !important;
@@ -21,7 +25,27 @@ page-home {
     }
     .item-description {
         //background-color:transparentize($color: grey, $amount: 0.5) !important;
-        background-color: transparent;
         word-wrap: break-word;
+        overflow-wrap: break-word;
     }
+    .button-end {
+        text-align: end;
+    }
+.submit {
+
+    position: relative;
+    width:200px;
+    margin:auto;
+    margin-top:50vh;
+    background-color: transparentize($color: rgb(34, 128, 204), $amount: 0.2) !important;
+
+}
+.image{
+    position: relative;
+    text-align: end;
+    margin-top: 5%;
+    //background-color: transparentize($color: rgb(53, 50, 50), $amount: 0.4) !important;
+
+}
+
 }

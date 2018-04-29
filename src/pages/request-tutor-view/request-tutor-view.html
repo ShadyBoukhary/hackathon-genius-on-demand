@@ -8,29 +8,45 @@
 
   <ion-navbar>
     <ion-title>Tutoring Request</ion-title>
+    <ion-buttons end>
+        <button ion-button (click)="close()">Dismiss</button>
+      </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="background" padding>
+    <ion-card class="card">
+        <ion-card-content>
+          <ion-item-divider>
+            <h1>{{request?.subject}}</h1>
+          </ion-item-divider>
+          <ion-item class="item">
+            <h2>{{request?.fromProfile.firstName}} {{request?.fromProfile.lastName}}</h2>
+          </ion-item>
 
-      <h2>Subject: {{tutorRequest.Subject}}</h2>
-
-      <h2>Major: {{tutorRequest.Major}}</h2>
-
-      <h2>Class: {{tutorRequest.ClassName}}</h2>
-
-      <h2>Status: {{tutorRequest.Status}}</h2>
-
-      <h2>Description: {{tutorRequest.Description}}</h2>
-
-      <h2>Meeting Place: {{tutorRequest.MeetingPlace}}</h2>
-
-      <h2>Date: {{tutorRequest.Day}}</h2>
-
-      <h2>Time: {{tutorRequest.Time}}</h2>
-
-
-      <button ion-button class="contact" block>Contact</button>
+          <ion-item class="item">
+            <h3>Class: {{request?.class}}</h3>
+          </ion-item>
+          <ion-item class="item">
+            <h3>Major: {{request?.major}}</h3>
+            <h3>Place: {{request?.place}}</h3>
+            <h3>Preferred Time: {{request?.timePreferred}}</h3>
+            <h3>Preferred Date: {{request?.datePreferred}}</h3>
+          </ion-item>
+          <ion-item text-wrap class="item-description">
+              <div class="item-description">{{request?.description}}</div>
+            </ion-item>
+          <ion-row>
+            <ion-col>
+              <button ion-button icon-left clear small (click)="contact()">
+                <ion-icon name="text"></ion-icon>
+                <div>Contact Now</div>
+              </button>
+            </ion-col>
+          </ion-row>
+          
+        </ion-card-content>
+      </ion-card>
 </ion-content>

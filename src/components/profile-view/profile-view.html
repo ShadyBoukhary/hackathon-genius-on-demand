@@ -1,0 +1,27 @@
+
+  <div *ngIf="userProfile">
+      <ion-card class="card">
+        <ion-card-content>
+          <ion-item class="item">
+            <ion-label >Email</ion-label>
+            <div>Email: {{userProfile.email}} </div>
+          </ion-item>
+    
+          <ion-item class="item">
+            <div>First Name: {{userProfile.firstName}}</div>
+          </ion-item>
+    
+          <ion-item class="item">
+            <div>Last Name: {{userProfile.lastName}} </div>
+          </ion-item>
+  
+          <ion-item class="item">
+            <div>Classification: {{userProfile.classification}}</div>
+          </ion-item>
+    
+          <ion-item class="item">
+            <div >Date of Birth: {{userProfile.dateOfBirth}}</div>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </div>

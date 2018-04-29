@@ -43,18 +43,19 @@ export class RequestTutorPage implements OnDestroy{
       });
       this.authenticatedUserProfile$ = this.data.getAuthenticatedUserProfile().subscribe(profile => {
         this.authenticatedUserProfile = profile;
-      })
+      });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RequestTutorPage');
   }
 
-  submit() {
+  async submit() {
      
     this.tutorRequest.time = new Date();
     this.tutorRequest.fromProfile = this.authenticatedUserProfile;
-    const result = this.data.saveRequest(this.tutorRequest);
+    this.tutorRequest.from = this.authenticatedUserProfile.$key;
+    const result = await this.data.saveRequest(this.tutorRequest);
     if (result) {
       this.toast.create({
         message: 'Request sent!',

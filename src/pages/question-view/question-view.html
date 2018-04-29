@@ -6,23 +6,88 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>QuestionView</ion-title>
+  <ion-navbar color="primary">
+    <ion-title>Question Details</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="close()">Dismiss</button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-    <h1 >{{question.title}}</h1>
+<ion-content class="background" padding>
+  <ion-card class="card">
+    <ion-card-content>
+      <ion-card-header>
+        {{question?.title}}
+      </ion-card-header>
+      <ion-item class="item">
+        {{question?.subtitle}}
+      </ion-item>
+      <ion-item text-wrap class="item-description">
+        <div class="item-description">{{question?.description}}</div>
+      </ion-item>
+      <ion-item class="item">
+        <h3>Submitted by: {{question?.fromProfile.firstName}} {{question?.fromProfile.lastName}}</h3>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <button ion-button icon-left clear small>
+            <ion-icon name="thumbs-up"></ion-icon>
+            <div>12 Likes</div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button icon-left clear small (click)="writeAnswer()">
+            <ion-icon name="text"></ion-icon>
+            <div>3 Answers</div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
 
-    <h3 >{{question.subtitle}}</h3>
-  
-    <p>{{question.description}}</p>
+  <div *ngIf="writeAnswerToggle === true">
+    <div style="text-align:center">
+      <button ion-button clear (click)="showAnswers()">Show Answers</button>
+    </div>
+    <div *ngIf="showAnswersToggle === true">
+      <div *ngFor="let answer of answerList">
+          <ion-card class="card">
+              <ion-card-content>
+                <ion-item-divider>
+                  <h1>{{answer?.fromProfile.firstName}} {{answer?.fromProfile.lastName}}</h1>
+                </ion-item-divider>
+                <h3>{{answer?.time}}</h3>
+                <ion-item text-wrap class="item-description">
+                    <div class="item-description">{{answer?.text}}</div>
+                  </ion-item>
+                <ion-row>
+                  <ion-col>
+                    <button ion-button icon-left clear small>
+                      <ion-icon name="thumbs-up"></ion-icon>
+                      <div>16 Likes</div>
+                    </button>
+                  </ion-col>
+                  
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+      </div>
+    </div>
 
-    <!-- Re-enable this when image functionality is added to question class and interface -->
-    <!-- <ion-img [src]="question.image"></ion-img> -->
+    <ion-card>
+      <ion-card-header>Write Answer</ion-card-header>
+      <ion-item class="item">
+        <ion-textarea placeholder="Answer" rows="14" [(ngModel)]="answer.text"></ion-textarea>
+      </ion-item>
+      <button class="button-end" ion-item detail-none>
+        <ion-icon padding-right name="attach"></ion-icon>
+        Attachments
+      </button>
+    </ion-card>
+    <button ion-button block color="primary" (click)="submit()">Submit Answer</button>
 
-  <button ion-button class="Comment">Comment</button>
-  <button ion-button class="Answer" (click)="goSubmitAnswerPage()"  block>Answer</button>
+  </div>
 </ion-content>

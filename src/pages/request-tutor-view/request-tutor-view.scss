@@ -1,3 +1,52 @@
 page-request-tutor-view {
-
+        .textarea {
+            height: 100px;
+            
+        }
+        .background {
+            background-image: url("../../assets/imgs/background.jpg");
+         background-position: center;
+          background-size: cover;
+        }
+        .register-translucent {
+            background-color: transparentize($color: rgb(34, 128, 204), $amount: 0.4) !important;
+          }
+          .ionrow {
+            align-self: stretch;
+        }
+        .card {
+            //margin-top: 50%;
+            //background-color:transparentize($color: white, $amount: 0.4) !important;
+            background-color: transparentize($color: rgb(236, 236, 236), $amount: 0.2) !important;
+        }
+        .item {
+            //background-color:transparentize($color: grey, $amount: 0.5) !important;
+            background-color: transparent;
+        }
+        .item-description {
+            //background-color:transparentize($color: grey, $amount: 0.5) !important;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        .button-end {
+            text-align: end;
+        }
+    .submit {
+    
+        position: relative;
+        width:200px;
+        margin:auto;
+        margin-top:50vh;
+        background-color: transparentize($color: rgb(34, 128, 204), $amount: 0.2) !important;
+    
+    }
+    .image{
+        position: relative;
+        text-align: end;
+        margin-top: 5%;
+        //background-color: transparentize($color: rgb(53, 50, 50), $amount: 0.4) !important;
+    
+    }
+    
+    
 }

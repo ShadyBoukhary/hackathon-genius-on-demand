@@ -21,6 +21,7 @@ export class LastMessagesListComponent implements OnInit{
   constructor(private chat: ChatService, private navCtrl: NavController) {
 
   }
+  
 
   ngOnInit() {
     this.messageList = this.chat.getLastMessages();
@@ -43,5 +44,6 @@ export class LastMessagesListComponent implements OnInit{
     }
     this.navCtrl.push('Chat', {profile});
   }
+
 
 }
