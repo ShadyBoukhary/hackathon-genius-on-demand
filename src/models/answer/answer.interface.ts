@@ -1,9 +1,12 @@
+import { Profile } from "../profile/profile.interface";
+import { Question } from "../question/question.interface";
+
 export interface Answer {
-    $from: string;
+    from: string;
     text: string;
     images?: string[];
     time: Date;
-    $question: string;
     $key?: string;
+    fromProfile: Profile;
 
 }

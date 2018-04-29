@@ -1,6 +1,12 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, OnDestroy } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController, ToastController } from 'ionic-angular';
 import { Question } from '../../models/question/question.interface';
+import { Answer } from '../../models/answer/answer.interface';
+import { Subscription } from 'rxjs/Subscription';
+import { Profile } from '../../models/profile/profile.interface';
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { DataService } from '../../providers/data-service/data-service';
+import { Observable } from 'rxjs/Observable'
 /**
  * Generated class for the QuestionViewPage page.
  *
@@ -13,10 +19,29 @@ import { Question } from '../../models/question/question.interface';
   selector: 'page-question-view',
   templateUrl: 'question-view.html',
 })
-export class QuestionViewPage {
+export class QuestionViewPage implements OnDestroy{
   //question: Question;
-  question: TestQuestion;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  question: Question;
+  answer = {} as Answer;
+  answerList: Answer[];
+  questionById: Observable<Question>;
+  questionById$: Subscription;
+
+  writeAnswerToggle: boolean = false;
+  showAnswersToggle: boolean = false;
+  authenticatedUser$: Subscription;
+  authenticatedUserProfile$: Subscription;
+  authenticatedUserProfile: Profile;
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController,
+    private auth: AuthServiceProvider, private data: DataService, private toast: ToastController) {
+    this.authenticatedUser$ = this.auth.getAutenticatedUser().subscribe(user => {
+      this.answer.from = user.uid;
+    });
+    this.authenticatedUserProfile$ = this.data.getAuthenticatedUserProfile().subscribe(profile => {
+      this.authenticatedUserProfile = profile;
+    });
   }
 
 
@@ -24,23 +49,64 @@ export class QuestionViewPage {
     console.log('ionViewDidLoad QuestionViewPage');
   }
   ionViewWillLoad() {
-    //this.question = this.navParams.get('question');
-    
-    //testing, creating a fake question
-    this.question = new TestQuestion();
-    this.question.title = "Help with my Algebra homework";
-    this.question.subtitle = "Find value for x";
-    this.question.description = "Testing a description that is longer than the usual title or subtitle, field should be able to display entire question in a nice format. Making up some extra words so that the question is even longer. Blablbalblablablablablalbalbalbalblablalbalblalblablablalbalblablalblablablalbalblablalblalbalblalba."
-    console.log(this.question)
+    this.question = this.navParams.get('question');
+    console.log(this.question);
+    this.questionById$ = this.data.getQuestionByID(this.question).subscribe((q: Question) => {
+      this.answerList = q.answers;
+      console.log(this.answerList);
+    });
+
   }
   goSubmitAnswerPage(){
     this.navCtrl.push("SubmitAnswerPage", {'questionDescription': this.question.description});
   }
+  close() {
+    this.view.dismiss();
+  }
+  writeAnswer() {
+    this.writeAnswerToggle = true;
+  }
+  
+  showAnswers() {
+    if (!this.showAnswersToggle) {
+      this.showAnswersToggle = true;
+    }
+    else {
+      this.showAnswersToggle = false;
+    }
+  }
+  async submit() {
+    this.answer.from = this.authenticatedUserProfile.$key;
+    this.answer.fromProfile = this.authenticatedUserProfile;
+    this.answer.time = new Date();
+    console.log(this.answer.time);
+    if (!this.question.answers) {
+      this.question.answers = [];
+    }
+    console.log(this.question.answers);
+    this.question.answers[this.question.answers.length] = this.answer;
+    const response = await this.data.saveAnswer(this.question);
+    if (response) {
+      this.toast.create({
+        message: 'Answer Successfully Submitted!',
+        duration: 2000
+      }).present();
+      this.writeAnswerToggle = false;
+      this.showAnswersToggle = false;
+    }
+    else {
+      this.toast.create({
+        message: 'An error has occurred!',
+        duration: 2000
+      }).present();
+    }
+
+
+  }
+  ngOnDestroy() {
+    this.authenticatedUser$.unsubscribe();
+    this.authenticatedUserProfile$.unsubscribe();
+    this.questionById$.unsubscribe();
+  }
 }
 
-//Purely for html formatting testing
-class TestQuestion{
-  public title: string;
-  public subtitle: string;
-  public description: string;
-}

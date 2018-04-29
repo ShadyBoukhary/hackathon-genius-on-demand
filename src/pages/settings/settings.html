@@ -6,26 +6,26 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Settings</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="background" padding>
 
   <ion-list no-lines >
-    <button ion-item (click)="navigateToPage('ProfilePage')" >
+    <button ion-item class="item" (click)="navigateToPage('ProfilePage')" >
       <ion-icon padding-right name="contact"></ion-icon>
       Profile
     </button>
-    <button ion-item>
+    <button ion-item class="item">
       <ion-icon padding-right name="bug"></ion-icon>
     Report a Bug
     </button>
 
-    <button ion-item (click)="navigateToPage('AboutPage')" >
+    <button ion-item class="item" (click)="navigateToPage('AboutPage')" >
       <ion-icon padding-right name="information-circle"></ion-icon>
       About
     </button>

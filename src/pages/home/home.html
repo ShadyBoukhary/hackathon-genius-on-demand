@@ -5,21 +5,109 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Home</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <div>
-      <button ion-button class ="register-translucent" (click)="goQuestionsPage()">Questions?</button>
-      <button ion-button class ="register-translucent" (click)="goTutorPage()">Request tutor</button>
+<ion-content class="background">
+  <div padding>
+    <ion-segment [(ngModel)]="filter">
+
+      <ion-segment-button value="requests">
+        Requests
+      </ion-segment-button>
+      <ion-segment-button value="questions">
+        Questions
+      </ion-segment-button>
+    </ion-segment>
   </div>
-  <ion-item>  
-    <ion-label floating>Name</ion-label>
-    <ion-input [(ngModel)]="name"></ion-input>
-  </ion-item>
-  
+
+  <ion-row>
+    <ion-col width-50 class="ionrow">
+      <button ion-button full class="register-translucent" (click)="goQuestionsPage()">Questions?</button>
+    </ion-col>
+    <ion-col width-50 class="ionrow">
+      <button ion-button full class="register-translucent" (click)="goTutorPage()">Request tutor</button>
+    </ion-col>
+  </ion-row>
+
+  <div [ngSwitch]="filter">
+
+
+    <ion-list *ngSwitchCase="'questions'">
+      <ion-item *ngFor="let question of questionList | async" (click)="openQuestion(question)">
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-item-divider>
+              <h1>{{question?.title}}</h1>
+            </ion-item-divider>
+            <ion-item class="item">
+              {{question?.subtitle}}
+            </ion-item>
+            <ion-item class="item-description">
+              <p class="item-description">{{question?.description}}</p>
+            </ion-item>
+            <ion-row>
+              <ion-col>
+                <button ion-button icon-left clear small>
+                  <ion-icon name="thumbs-up"></ion-icon>
+                  <div>12 Likes</div>
+                </button>
+              </ion-col>
+              <ion-col>
+                <button ion-button icon-left clear small>
+                  <ion-icon name="text"></ion-icon>
+                  <div>3 Answers</div>
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngSwitchCase="'requests'">
+      <ion-item *ngFor="let request of requestList | async" (click)="openRequest(request)">
+        <ion-card class="card">
+          <ion-card-content>
+            <ion-item-divider>
+              <h1>{{request?.subject}}</h1>
+            </ion-item-divider>
+            <ion-item class="item">
+              <h2>{{request?.fromProfile.firstName}} {{request?.fromProfile.lastName}}</h2>
+            </ion-item>
+
+            <ion-item class="item">
+              <h3>Class: {{request?.class}}</h3>
+            </ion-item>
+            <ion-item class="item">
+              <h3>Preferred Time: {{request?.timePreferred}}</h3>
+              <h3>Preferred Date: {{request?.datePreferred}}</h3>
+            </ion-item>
+            <ion-item class="item-description">
+                <p class="item-description">{{request?.description}}</p>
+              </ion-item>
+            <ion-row>
+              <ion-col>
+                <button ion-button icon-left clear small (click)="openRequest(request)">
+                  <ion-icon name="eye"></ion-icon>
+                  <div>View</div>
+                </button>
+              </ion-col>
+            </ion-row>
+            
+          </ion-card-content>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div padding>
+
+  </div>
+
+
 </ion-content>

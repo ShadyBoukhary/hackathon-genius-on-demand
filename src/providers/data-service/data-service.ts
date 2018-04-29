@@ -86,6 +86,9 @@ export class DataService implements OnDestroy {
     return this.database.list(`/questions/`);
   }
 
+  getQuestionByID(question: Question) {
+    return this.database.object(`/questions/${question.$key}`);
+  }
 
   async deleteQuestion(question: Question) {
     const questionObject: FirebaseObjectObservable<Question> = this.database.object(`/questions/${question.$key}`);
@@ -101,6 +104,17 @@ export class DataService implements OnDestroy {
   async saveRequest(request: TutorResquest): Promise<boolean> {
     try {
       await this.database.list(`/requests/`).push(request);
+      return true;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  async saveAnswer(question: Question): Promise<boolean> {
+    const questionObject: FirebaseObjectObservable<Question> = this.database.object(`/questions/${question.$key}`);
+    try {
+      await questionObject.set(question);
       return true;
     } catch (error) {
       console.log(error);
