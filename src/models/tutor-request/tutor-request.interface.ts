@@ -1,4 +1,4 @@
-export interface TutorResquest {
+export interface TutorRequest {
     $from: string;
     time: Date;
     place: string;
