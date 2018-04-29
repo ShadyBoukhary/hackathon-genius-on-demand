@@ -14,10 +14,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'question.html',
 })
 export class QuestionPage {
-
   Title: string;
   Subtitle: string;
   Description: string;
+  Comment: string;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
