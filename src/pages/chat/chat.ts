@@ -68,6 +68,7 @@ export class Chat {
     console.log('getting msgs');
 
     this.messageList = this.chatService.getChats(this.selectedProfile.$key);
+    this.focus();
     this.scrollToBottom();
   }
 

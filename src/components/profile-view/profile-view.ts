@@ -15,6 +15,7 @@ export class ProfileViewComponent implements OnInit {
   authUser: User;
   loader: Loading;
 
+
   @Output() existingProfile: EventEmitter<Profile>;
 
   constructor(private data: DataService, private loading: LoadingController) {

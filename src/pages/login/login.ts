@@ -37,9 +37,10 @@ export class LoginPage {
         message: 'Welcome!',
         duration: 1500
       }).present();
-      this.authProfile$ = this.data.getProfile(<User>response.result).subscribe((profile: Profile) => {
-        console.log(profile);
-        if (profile.lastName != '') {
+      this.authProfile$ = this.data.getAuthenticatedUserProfile().subscribe((profile) => {
+        let prof: Profile = profile;
+        console.log(prof);
+        if (prof.firstName) {
           console.log('To tabs page');
           this.navCtrl.setRoot('TabsPage');
         }

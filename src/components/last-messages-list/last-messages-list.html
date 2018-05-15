@@ -1,7 +1,13 @@
 <ion-list> 
     <ion-item-divider>Last Messages</ion-item-divider>
     <ion-item class="item" *ngFor="let messag of messageList | async" (click)="openMessage(messag)">
-      <h2>{{messag?.userToProfile?.firstName}} {{messag?.userToProfile?.lastName}}</h2>
+      <div *ngIf="checkMessage(messag); else diff">
+      <h2>{{messag?.userFromProfile?.firstName}} {{messag?.userFromProfile?.lastName}}</h2>
       <h3>{{messag?.message}}</h3>
+    </div>
+    <ng-template #diff>
+        <h2>{{messag?.userToProfile?.firstName}} {{messag?.userToProfile?.lastName}}</h2>
+        <h3>{{messag?.message}}</h3>
+    </ng-template>
     </ion-item>
   </ion-list>
