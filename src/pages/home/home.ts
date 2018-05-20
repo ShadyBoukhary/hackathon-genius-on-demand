@@ -5,12 +5,6 @@ import { Question } from '../../models/question/question.interface';
 import { TutorResquest } from '../../models/tutor-request/tutor-request.interface';
 import { DataService } from '../../providers/data-service/data-service';
 
-/**
- * Generated class for the HomePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({

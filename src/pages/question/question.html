@@ -28,8 +28,8 @@
       <ion-item class="item">
         <ion-textarea placeholder="Description" rows="14" [(ngModel)]="question.description"></ion-textarea>
       </ion-item>
-      
-      <button class="button-end" ion-item detail-none>
+      <p>{{imageURI}}</p>
+      <button class="button-end" ion-item detail-none (click)="getImage()">
         <ion-icon padding-right name="attach"></ion-icon>
         Attachments
       </button>

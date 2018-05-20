@@ -3,7 +3,10 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-
+import { Base64 } from '@ionic-native/base64';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
 import { MyApp } from './app.component';
 import { EmojiProvider } from '../providers/emoji';
 import { ChatService } from '../providers/chat-service';
@@ -25,7 +28,7 @@ import { DataService } from '../providers/data-service/data-service';
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -38,8 +41,12 @@ import { DataService } from '../providers/data-service/data-service';
     EmojiProvider,
     AuthServiceProvider,
     DataService,
-    ChatService
-
+    ChatService,
+    Base64,
+    FileTransfer,
+    FileTransferObject,
+    File,
+    Camera,
   ]
 })
 export class AppModule {}
