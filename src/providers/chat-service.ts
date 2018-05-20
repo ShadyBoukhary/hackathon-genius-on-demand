@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { map } from 'rxjs/operators/map';
-//import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import { ChatMessage } from '../models/chat-message/chat-message.interface'
 import { DataService } from './data-service/data-service';
@@ -11,11 +10,6 @@ import { AuthServiceProvider } from './auth-service/auth-service';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/forkJoin';
 
-export class UserInfo {
-  id: string;
-  name?: string;
-  avatar?: string;
-}
 
 @Injectable()
 export class ChatService {
@@ -62,16 +56,6 @@ export class ChatService {
       )
     })
   }
-
-  getUserInfo(): Promise<UserInfo> {
-    const userInfo: UserInfo = {
-      id: '140000198202211138',
-      name: 'Luff',
-      avatar: './assets/user.jpg'
-    };
-    return new Promise(resolve => resolve(userInfo));
-  }
-
 
 
 }

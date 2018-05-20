@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Modal, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the ChatlistPage page.
@@ -15,11 +15,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ChatlistPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private modal: ModalController) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ChatlistPage');
+  searchUsers() {
+    const modal: Modal = this.modal.create('SearchPage');
+    modal.present();
   }
 
 }

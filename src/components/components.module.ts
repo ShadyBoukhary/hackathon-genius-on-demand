@@ -5,11 +5,13 @@ import { IonicModule } from 'ionic-angular';
 import { OnlineUsersComponent } from './online-users/online-users';
 import { LastMessagesListComponent } from './last-messages-list/last-messages-list';
 import { ProfileViewComponent } from './profile-view/profile-view';
+import { SearchUsersComponent } from './search-users/search-users';
 @NgModule({
 	declarations: [EditProfileFormComponent,
     OnlineUsersComponent,
     LastMessagesListComponent,
     ProfileViewComponent,
+    SearchUsersComponent,
     ],
 	imports: [FormsModule,
 		IonicModule],
@@ -17,6 +19,7 @@ import { ProfileViewComponent } from './profile-view/profile-view';
     OnlineUsersComponent,
     LastMessagesListComponent,
     ProfileViewComponent,
+    SearchUsersComponent,
     ]
 })
 export class ComponentsModule {}

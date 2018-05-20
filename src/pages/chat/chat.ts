@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
 import { Events, Content } from 'ionic-angular';
-import { ChatService, UserInfo } from "../../providers/chat-service";
+import { ChatService } from "../../providers/chat-service";
 import { ChatMessage } from '../../models/chat-message/chat-message.interface'
 import { Profile } from '../../models/profile/profile.interface';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
@@ -18,8 +18,7 @@ export class Chat {
 
   @ViewChild(Content) content: Content;
   @ViewChild('chat_input') messageInput: ElementRef;
-  user: UserInfo;
-  toUser: UserInfo;
+
   editorMsg = '';
   showEmojiPicker = false;
   selectedProfile: Profile;
@@ -32,16 +31,8 @@ export class Chat {
               private events: Events,
               private auth: AuthServiceProvider,
               private data: DataService) {
-    // Get the navParams toUserId parameter
-    this.toUser = {
-      id: navParams.get('toUserId'),
-      name: navParams.get('toUserName')
-    };
-    // Get mock user information
-    this.chatService.getUserInfo()
-    .then((res) => {
-      this.user = res
-    });
+
+  
   }
 
   ionViewWillLeave() {
@@ -131,74 +122,9 @@ export class Chat {
     this.scrollToBottom();
   }
 
-  // /**
-  //  * @name getMsg
-  //  * @returns {Promise<ChatMessage[]>}
-  //  */
-  // getMsg() {
-  //   // Get mock message list
-  //   return this.chatService
-  //   //.getMsgList()
-  //   .subscribe(res => {
-  //     this.msgList = res;
-  //     this.scrollToBottom();
-  //   });
-  // }
-
-  /**
-   */
-  // sendMsg() {
-  //   if (!this.editorMsg.trim()) return;
-
-  //   // Mock message
-  //   const id = Date.now().toString();
-  //   let newMsg: ChatMessage = {
-  //     messageId: Date.now().toString(),
-  //     $userId: this.user.id,
-  //     userName: this.user.name,
-  //     userAvatar: this.user.avatar,
-  //     $toUserId: this.toUser.id,
-  //     time: Date.now(),
-  //     message: this.editorMsg,
-  //     status: 'pending'
-  //   };
-
-  //   this.pushNewMsg(newMsg);
-  //   this.editorMsg = '';
-
-  //   if (!this.showEmojiPicker) {
-  //     this.focus();
-  //   }
-
-  //   this.chatService.sendMsg(newMsg)
-  //   //.then(() => {
-  //     let index = this.getMsgIndexById(id);
-  //     if (index !== -1) {
-  //       this.msgList[index].status = 'success';
-  //     //}
-  //   }//)
-  // }
-
-  /**
-   * @name pushNewMsg
-   * @param msg
-   */
-  // pushNewMsg(msg: ChatMessage) {
-  //   const userId = this.user.id,
-  //     toUserId = this.toUser.id;
-  //   // Verify user relationships
-  //   if (msg.$userId === userId && msg.$toUserId === toUserId) {
-  //     this.msgList.push(msg);
-  //   } else if (msg.$toUserId === userId && msg.$userId === toUserId) {
-  //     this.msgList.push(msg);
-  //   }
-  //   this.scrollToBottom();
-  // }
-
-  // getMsgIndexById(id: string) {
-  //   return this.msgList.findIndex(e => e.messageId === id)
-  // }
-
+  viewProfile(profile: Profile) {
+    
+  }
   scrollToBottom() {
     setTimeout(() => {
       if (this.content.scrollToBottom) {

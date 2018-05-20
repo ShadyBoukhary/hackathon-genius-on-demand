@@ -38,13 +38,14 @@ export class HomePage implements OnInit {
     this.navCtrl.push("RequestTutorPage");
   }
 
+
+  
  ngOnInit() {
   this.questionList = this.data.getQuestions();
   console.log(this.questionList);
   this.requestList = this.data.getRequests();
 
  }
-
  openQuestion(question: Question) {
   const modal: Modal = this.modal.create('QuestionViewPage', {question});
   modal.present();

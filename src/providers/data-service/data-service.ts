@@ -1,24 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
-//import { AngularFireDatabase/*, AngularFireObject*/} from 'angularfire2/database';
 import { FirebaseObjectObservable, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database-deprecated';
 import { User, database } from 'firebase/app';
 import { Profile } from '../../models/profile/profile.interface';
 import { AuthServiceProvider } from '../auth-service/auth-service';
-
-
-import 'rxjs/add/operator/take';
-import "rxjs/add/operator/map";
-import "rxjs/add/operator/mergeMap";
-import 'rxjs/add/operator/first';
-
-
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { first } from 'rxjs/operator/first';
 import { Question } from '../../models/question/question.interface';
 import { TutorResquest } from '../../models/tutor-request/tutor-request.interface';
 
-
+import 'rxjs/add/operator/take';
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/mergeMap";
+import 'rxjs/add/operator/first';
 
 @Injectable()
 export class DataService implements OnDestroy {
@@ -153,6 +147,19 @@ export class DataService implements OnDestroy {
   getOnlineUsers(): FirebaseListObservable<Profile[]> {
     return this.database.list('online-users');
   }
+
+  search(firstName: string) {
+    console.log(firstName);
+    const query: FirebaseListObservable<Profile[]> = this.database.list(`/profiles`, {
+      query: {
+        orderByChild: 'firstName',
+        equalTo: firstName,
+        
+      }
+    });
+    return query;
+  }
+  
   
 }
 
