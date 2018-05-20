@@ -53,8 +53,7 @@
 
 
     <ion-list *ngSwitchCase="'questions'">
-      <ion-item *ngFor="let question of questionList | async" (click)="openQuestion(question)">
-        <ion-card class="card">
+        <ion-card class="card" *ngFor="let question of questionList | async" (click)="openQuestion(question)">
           <ion-card-content>
             <ion-item-divider>
               <h1>{{question?.title}}</h1>
@@ -81,12 +80,10 @@
             </ion-row>
           </ion-card-content>
         </ion-card>
-      </ion-item>
     </ion-list>
 
     <ion-list *ngSwitchCase="'requests'">
-      <ion-item *ngFor="let request of requestList | async" (click)="openRequest(request)">
-        <ion-card class="card">
+        <ion-card class="card" *ngFor="let request of requestList | async" (click)="openRequest(request)">
           <ion-card-content>
             <ion-item-divider>
               <h1>{{request?.subject}}</h1>
@@ -116,7 +113,6 @@
 
           </ion-card-content>
         </ion-card>
-      </ion-item>
     </ion-list>
   </div>
 

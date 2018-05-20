@@ -1,0 +1,7 @@
+<div *ngIf="base64Image" >
+  <img *ngFor="let image of base64Image" [src]="image" alt="image source">
+</div>
+<button class="button-end" ion-item detail-none (click)="getImage()">
+  <ion-icon padding-right name="attach"></ion-icon>
+  Attachments
+</button>

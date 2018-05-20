@@ -4,7 +4,7 @@ import { Question } from '../../models/question/question.interface';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { DataService } from '../../providers/data-service/data-service';
 import { Subscription } from 'rxjs/Subscription';
-import { User } from 'firebase/app';
+import { User, storage } from 'firebase/app';
 import { Profile } from '../../models/profile/profile.interface';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -23,14 +23,14 @@ import { ActionSheetController } from 'ionic-angular';
   selector: 'page-question',
   templateUrl: 'question.html',
 })
-export class QuestionPage implements OnDestroy{
-  
+export class QuestionPage implements OnDestroy {
+
   question = {} as Question;
   authenticatedUser$: Subscription;
   authenticatedUserProfile$: Subscription;
   authenticatedUserProfile: Profile;
-  imageURI: string;
-  imageFileName: string;
+  imageData: string;
+  base64Image: string[] = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthServiceProvider,
     private data: DataService, private toast: ToastController,
@@ -51,20 +51,51 @@ export class QuestionPage implements OnDestroy{
   async submit() {
     this.question.time = new Date();
     this.question.fromProfile = this.authenticatedUserProfile;
+
+    // if question contains attachments
+    if (this.base64Image.length > 0) {
+
+      this.question.images = [];
+
+      // generate IDs for images and store a reference in the question
+      this.base64Image.forEach((image) => {
+        const imageURL: string = this.generateUUID();
+        this.question.images.push(imageURL);
+      });
+
+    }
+
+
+    // upload question
     const response = await this.data.saveQuestion(this.question);
+    // if question was uploaded, upload the images
     if (response) {
+      if (this.base64Image.length > 0) {
+        let x = 0;
+        this.question.images.forEach((image) => {
+          try {
+            const imageRef = storage().ref(`questions/${image}`);
+            imageRef.putString(this.base64Image[x++], 'data_url');
+          }
+          catch(error) {
+            console.log(error);
+            this.toast.create({
+              message: error,
+              duration: 3000
+            }).present();
+          }
+          
+        });
+      }
+
       this.toast.create({
         message: 'Question submitted!',
         duration: 2000
       }).present();
       this.navCtrl.pop();
     }
-    else {
-      this.toast.create({
-        message: 'An error occured!',
-        duration: 2000
-      }).present();
-    }
+
+
   }
 
   async getImage() {
@@ -77,40 +108,57 @@ export class QuestionPage implements OnDestroy{
           role: 'camera',
           handler: () => {
             console.log('From Camera upload');
-            camUpload = true;
+            this.getImageHandler(true);
           }
         },
         {
           text: 'Camera Roll',
           role: 'roll',
-          handler: () => {
+          handler: async () => {
             console.log('Camera Roll Upload');
-            camUpload = false;
+            await this.getImageHandler(false);
           }
         }
       ]
-    });
-    actionSheet.present();
+    }).present();
+
+
+  }
+  ngOnDestroy() {
+    this.authenticatedUser$.unsubscribe();
+    this.authenticatedUserProfile$.unsubscribe();
+  }
+  async getImageHandler(camUpload: boolean) {
     let options: CameraOptions;
     if (!camUpload) {
       options = {
         quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+        destinationType: this.camera.DestinationType.DATA_URL,
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        encodingType: this.camera.EncodingType.JPEG,
+        correctOrientation: true,
+        targetHeight: 500,
+        targetWidth: 500
       };
     }
     else {
       options = {
         quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
-        sourceType: this.camera.PictureSourceType.CAMERA
+        destinationType: this.camera.DestinationType.DATA_URL,
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        encodingType: this.camera.EncodingType.JPEG,
+        correctOrientation: true,
+        targetHeight: 500,
+        targetWidth: 500
       };
     }
-    
+
     try {
-      this.imageURI = await this.camera.getPicture(options);
+      this.imageData = await this.camera.getPicture(options);
+      this.base64Image[this.base64Image.length] = `data:image/jpeg;base64,${this.imageData}`;
+
     }
-    catch(error) {
+    catch (error) {
       console.log(error);
       this.toast.create({
         message: error,
@@ -118,8 +166,13 @@ export class QuestionPage implements OnDestroy{
       }).present();
     }
   }
-  ngOnDestroy() {
-    this.authenticatedUser$.unsubscribe();
-    this.authenticatedUserProfile$.unsubscribe();
+  private generateUUID(): any {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, function (c) {
+      var r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+    return uuid;
   }
 }

@@ -12,7 +12,7 @@
 
 </ion-header>
 
-<ion-content class="background" padding>
+<ion-content class="background">
   <ion-card class="card">
     <ion-list>
       <ion-item-divider>Subject Details</ion-item-divider>
@@ -28,7 +28,9 @@
       <ion-item class="item">
         <ion-textarea placeholder="Description" rows="14" [(ngModel)]="question.description"></ion-textarea>
       </ion-item>
-      <p>{{imageURI}}</p>
+      <div *ngIf="base64Image">
+        <img *ngFor="let image of base64Image" [src]="image" alt="image source">
+      </div>
       <button class="button-end" ion-item detail-none (click)="getImage()">
         <ion-icon padding-right name="attach"></ion-icon>
         Attachments
@@ -36,8 +38,9 @@
     </ion-list>
   </ion-card>
 
-
-  <button ion-button block color="primary" (click)="submit()">Submit</button>
+  <div padding>
+    <button ion-button block color="primary" (click)="submit()">Submit</button>
+  </div>
 
 
 

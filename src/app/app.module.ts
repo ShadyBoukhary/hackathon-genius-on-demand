@@ -12,6 +12,7 @@ import { EmojiProvider } from '../providers/emoji';
 import { ChatService } from '../providers/chat-service';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorage, AngularFireStorageModule } from 'angularfire2/storage';
 import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database-deprecated';
@@ -29,6 +30,7 @@ import { DataService } from '../providers/data-service/data-service';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    AngularFireStorageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

@@ -10,4 +10,6 @@ export interface Question {
     time: Date;
     $key?: string;
     answers?: Answer[];
+    images?: string[];
+
 }

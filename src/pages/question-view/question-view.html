@@ -16,20 +16,24 @@
 </ion-header>
 
 
-<ion-content class="background" padding>
+<ion-content class="background" >
   <ion-card class="card">
     <ion-card-content>
-      <ion-card-header>
-        {{question?.title}}
-      </ion-card-header>
-      <ion-item class="item">
-        {{question?.subtitle}}
-      </ion-item>
+      <ion-item-divider>
+        <h1>{{question?.title}}</h1>
+      </ion-item-divider>
+      <ion-item-divider>
+        <h2>{{question?.subtitle}}</h2>
+      </ion-item-divider>
+      
       <ion-item text-wrap class="item-description">
         <div class="item-description">{{question?.description}}</div>
       </ion-item>
       <ion-item class="item">
         <h3>Submitted by: {{question?.fromProfile.firstName}} {{question?.fromProfile.lastName}}</h3>
+      </ion-item>
+      <ion-item *ngIf="base64Images" >
+        <img *ngFor="let image of base64Images" [src]="image" alt="image source">
       </ion-item>
       <ion-row>
         <ion-col>

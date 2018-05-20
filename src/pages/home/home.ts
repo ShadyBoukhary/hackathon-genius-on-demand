@@ -48,4 +48,5 @@ export class HomePage implements OnInit {
    const modal: Modal = this.modal.create('RequestTutorViewPage', {request});
    modal.present();
  }
+ 
 }

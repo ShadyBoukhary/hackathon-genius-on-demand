@@ -26,6 +26,8 @@ export class QuestionViewPage implements OnDestroy{
   answerList: Answer[];
   questionById: Observable<Question>;
   questionById$: Subscription;
+  base64Images: string[];;
+  doneImages = false;
 
   writeAnswerToggle: boolean = false;
   showAnswersToggle: boolean = false;
@@ -48,15 +50,21 @@ export class QuestionViewPage implements OnDestroy{
   ionViewDidLoad() {
     console.log('ionViewDidLoad QuestionViewPage');
   }
-  ionViewWillLoad() {
+   async ionViewWillLoad() {
     this.question = this.navParams.get('question');
     console.log(this.question);
     this.questionById$ = this.data.getQuestionByID(this.question).subscribe((q: Question) => {
       this.answerList = q.answers;
       console.log(this.answerList);
     });
-
+    if (this.question.images) {
+      this.base64Images =  await this.data.getImages('questions/', this.question.images);
+      console.log(this.base64Images);
+    }
+    
   }
+
+
   goSubmitAnswerPage(){
     this.navCtrl.push("SubmitAnswerPage", {'questionDescription': this.question.description});
   }

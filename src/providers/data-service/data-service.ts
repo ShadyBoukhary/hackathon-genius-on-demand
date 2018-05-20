@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { FirebaseObjectObservable, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database-deprecated';
-import { User, database } from 'firebase/app';
+import { User, database, storage } from 'firebase/app';
 import { Profile } from '../../models/profile/profile.interface';
 import { AuthServiceProvider } from '../auth-service/auth-service';
 import { Observable } from 'rxjs/Observable';
@@ -13,6 +13,7 @@ import 'rxjs/add/operator/take';
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/mergeMap";
 import 'rxjs/add/operator/first';
+import { ToastController } from 'ionic-angular';
 
 @Injectable()
 export class DataService implements OnDestroy {
@@ -26,7 +27,7 @@ export class DataService implements OnDestroy {
   sub: Subscription;
 
 
-  constructor(private auth: AuthServiceProvider, private database: AngularFireDatabase) {
+  constructor(private auth: AuthServiceProvider, private database: AngularFireDatabase, private toast: ToastController) {
   }
 
 
@@ -72,10 +73,38 @@ export class DataService implements OnDestroy {
     }
     catch(error) {
       console.log(error);
+      // this.toast.create({
+      //   message: error.message,
+      //   duration: 3000
+      // }).present();
       return false;
     }
   }
 
+  // gets images for a question or an answer
+    async getImages(baseURL: string, imagesURL: string[]) {
+    let images: string[] = [];
+    try {
+      imagesURL.forEach((image) => {
+        console.log(image);
+        let downloadURL: string;
+        storage().ref(`${baseURL}/${image}`).getDownloadURL().then((url) => {
+          downloadURL = url;
+          console.log(downloadURL);
+          images.push(downloadURL);
+        }).catch(e => console.log(e));
+        
+      });
+      console.log(images);
+      return images;
+    }
+    catch(error) {
+      console.log(error);
+      return error;
+    }
+    
+    
+  }
   getQuestions(): FirebaseListObservable<Question[]> {
     return this.database.list(`/questions/`);
   }
